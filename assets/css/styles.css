@@ -37,8 +37,7 @@ label {
   color: #fff; /* chữ trắng nổi trên gradient */
 }
 
-select,
-input[type="text"] {
+select, input[type="text"] {
   margin-top: 5px;
   padding: 8px 10px;
   border: 1.5px solid rgba(255,255,255,0.5);
@@ -47,13 +46,22 @@ input[type="text"] {
   background: rgba(255,255,255,0.2);
   color: #fff;
   transition: border-color 0.2s ease, background 0.2s ease;
+
+  /* KHẮC PHỤC BỊ DÀI QUÁ */
+  max-height: 40px;
+  overflow-y: auto;
 }
 
-select:focus,
-input[type="text"]:focus {
+select:focus, input[type="text"]:focus {
   border-color: #fff;
   background: rgba(255,255,255,0.3);
   outline: none;
+}
+
+/* chỉnh màu list bên trong */
+select option {
+  background: #fff;
+  color: #000;
 }
 
 /* Button gradient loang */

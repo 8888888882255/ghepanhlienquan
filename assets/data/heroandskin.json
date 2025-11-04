@@ -2,7 +2,7 @@
   {
     "name": "Airi",
     "skins": [
-      {"file":"airi.jpg","displayName":"","tag":""},
+      {"file":"airi.jpg","displayName":"Mặc định","tag":""},
       {"file":"airi-tnvt.jpg","displayName":"Thứ nguyên Vệ Thần","tag":"db5"},
       {"file":"airi-nxl.jpg","displayName":"Ninja Xanh Lá","tag":"a"},
       {"file":"airi-tk.jpg","displayName":"Thích Khách","tag":"shh"},
@@ -24,7 +24,7 @@
   {
     "name": "Aleister",
     "skins": [
-      {"file":"aleister.jpg","displayName":"","tag":""},
+      {"file":"aleister.jpg","displayName":"Mặc định","tag":""},
 		{"file":"aleister-tnha.jpg","displayName":"Thiếu Niên Hắc Ám","tag":"ahh"},
 		{"file":"aleister-qv.jpg","displayName":"Quang Vinh","tag":"s5"},
 		{"file":"aleister-qsnt.jpg","displayName":"Quỷ soái nguyệt tộc","tag":"s"},
@@ -42,7 +42,7 @@
   {
     "name": "Alice",
     "skins": [
-      {"file":"alice.jpg","displayName":"","tag":""},
+      {"file":"alice.jpg","displayName":"Mặc định","tag":""},
       {"file":"alice1.jpg","displayName":"Nhà chiêm tinh","tag":"a"},
       {"file":"alice2.jpg","displayName":"Bé Gấu Tuyết","tag":"sc"},
       {"file":"alice3.jpg","displayName":"Xứ sở thần tiên","tag":"ahh"},
@@ -62,7 +62,7 @@
   {
     "name": "Allain",
     "skins": [
-      {"file":"allain.jpg","displayName":"","tag":""},
+      {"file":"allain.jpg","displayName":"Mặc định","tag":""},
       {"file":"allain2.jpg","displayName":"Kirito Hắc kiếm sĩ","tag":"sshhp"},
       {"file":"allain3.jpg","displayName":"Kirito","tag":"cl"},
       {"file":"allain4.jpg","displayName":"Tuyết sơn song kiếm","tag":"sshh"},
@@ -77,7 +77,7 @@
   {
     "name": "Amily",
     "skins": [
-      {"file":"amily.jpg","displayName":"","tag":""},
+      {"file":"amily.jpg","displayName":"Mặc định","tag":""},
       {"file":"amily2.jpg","displayName":"Đặc cảnh NYPD","tag":"a"},
       {"file":"amily3.jpg","displayName":"Thư ký","tag":"shh"},
       {"file":"amily4.jpg","displayName":"Đặc công nhện đỏ","tag":"sc"},
@@ -92,7 +92,7 @@
   {
     "name": "Annette",
     "skins": [
-      {"file":"annette.jpg","displayName":"","tag":""},
+      {"file":"annette.jpg","displayName":"Mặc định","tag":""},
       {"file":"annette2.jpg","displayName":"Nữ quản ga","tag":"a"},
       {"file":"annette3.jpg","displayName":"Xứ sở thần tiên","tag":"ahh"},
       {"file":"annette4.jpg","displayName":"Thần tượng âm nhạc","tag":"schh"},
@@ -109,7 +109,7 @@
   {
     "name": "Aoi",
     "skins": [
-      {"file":"aoi.jpg","displayName":"","tag":""},
+      {"file":"aoi.jpg","displayName":"Mặc định","tag":""},
       {"file":"aoi2.jpg","displayName":"Sát Thủ Đô Thị","tag":"ahh"},
       {"file":"aoi3.jpg","displayName":"Hoàng kim công chúa","tag":"aog"},
       {"file":"aoi4.jpg","displayName":"Tiệc bãi biển","tag":"ahh"},
@@ -122,7 +122,7 @@
   {
     "name": "Arthur",
     "skins": [
-      {"file":"arthur.jpg","displayName":"","tag":""},
+      {"file":"arthur.jpg","displayName":"Mặc định","tag":""},
       {"file":"arthur4.jpg","displayName":"Si Tình Kiếm","tag":"valentine"},
       {"file":"arthur7.jpg","displayName":"Hiệp sĩ trăng khuyết","tag":"sc"},
       {"file":"arthur8.jpg","displayName":"Siêu Việt","tag":"sshh"},
@@ -133,7 +133,7 @@
   {
     "name": "Arum",
     "skins": [
-      {"file":"arum.jpg","displayName":"","tag":""},
+      {"file":"arum.jpg","displayName":"Mặc định","tag":""},
       {"file":"arum3.jpg","displayName":"Vũ khúc long hổ","tag":"sshh"},
       {"file":"arum5.jpg","displayName":"Vũ khúc thần sứ","tag":"ssts"},
       {"file":"arum6.jpg","displayName":"Thỏ may mắn","tag":"schh"},
@@ -147,7 +147,7 @@
   {
     "name": "Astrid",
     "skins": [
-      {"file":"astrid.jpg","displayName":"","tag":""},
+      {"file":"astrid.jpg","displayName":"Mặc định","tag":""},
       {"file":"astrid4.jpg","displayName":"Tổ trưởng học đường","tag":"ahh"},
       {"file":"astrid5.jpg","displayName":"thần thoại hy lạp","tag":"ahh"},
       {"file":"astrid6.jpg","displayName":"Xứ sở diệu kỳ","tag":"ahh"},
@@ -160,7 +160,7 @@
   {
     "name": "Ata",
     "skins": [
-      {"file":"ata.jpg","displayName":"","tag":""},
+      {"file":"ata.jpg","displayName":"Mặc định","tag":""},
       {"file":"ata4.jpg","displayName":"Chiến Binh Hải Tộc","tag":"ahh"},
       {"file":"ata5.jpg","displayName":"Mèo đi mưa","tag":"ahh"},
       {"file":"ata7.jpg","displayName":"Gà mờ","tag":"ssm63"},
@@ -170,7 +170,7 @@
   {
     "name": "Aya",
     "skins": [
-      {"file":"aya.jpg","displayName":"","tag":""},
+      {"file":"aya.jpg","displayName":"Mặc định","tag":""},
       {"file":"aya2.jpg","displayName":"Hoạt náo viên","tag":"a"},
       {"file":"aya3.jpg","displayName":"MC Sóc nhỏ","tag":"schh"},
       {"file":"aya5.jpg","displayName":"Điệp viên ký ức","tag":"lienquan7"},
@@ -182,20 +182,20 @@
   {
     "name": "Azzen'Ka",
     "skins": [
-      {"file":"azzenka.jpg","displayName":"","tag":""}
+      {"file":"azzenka.jpg","displayName":"Mặc định","tag":""}
     ]
   },
   {
     "name": "Baldum",
     "skins": [
-      {"file":"baldum.jpg","displayName":"","tag":""},
+      {"file":"baldum.jpg","displayName":"Mặc định","tag":""},
       {"file":"baldum7.jpg","displayName":"Sói Quàng Khăn Đỏ","tag":"ssm78"}
     ]
   },
   {
     "name": "Bijan",
     "skins": [
-      {"file":"bijan.jpg","displayName":"","tag":""},
+      {"file":"bijan.jpg","displayName":"Mặc định","tag":""},
       {"file":"bijan2.jpg","displayName":"Chiến binh sa mạc","tag":"s"},
       {"file":"bijan3.jpg","displayName":"Hoàng kim cơ giáp","tag":"ss"},
       {"file":"bijan4.jpg","displayName":"Kình thiên Long Kỵ","tag":"ssshh"},
@@ -206,14 +206,14 @@
   {
     "name": "Billow",
     "skins": [
-      {"file":"billow.jpg","displayName":"","tag":""},
+      {"file":"billow.jpg","displayName":"Mặc định","tag":""},
       {"file":"billow2.jpg","displayName":"Thiên Tướng - Độ Ách","tag":"sschh"}
     ]
   },
   {
     "name": "Bonnie",
     "skins": [
-      {"file":"bonnie.jpg","displayName":"","tag":""},
+      {"file":"bonnie.jpg","displayName":"Mặc định","tag":""},
       {"file":"bonnie2.jpg","displayName":"Thỏ ma quái","tag":"s"},
       {"file":"bonnie3.jpg","displayName":"Cô bé sợ ma","tag":"sc"},
       {"file":"bonnie4.jpg","displayName":"Hoa hướng dương","tag":"ahh"},
@@ -223,7 +223,7 @@
   {
     "name": "Bright",
     "skins": [
-      {"file":"bright.jpg","displayName":"","tag":""},
+      {"file":"bright.jpg","displayName":"Mặc định","tag":""},
       {"file":"bright2.jpg","displayName":"Soái ca thánh điện","tag":"a"},
       {"file":"bright3.jpg","displayName":"Toshiro Hitsugaya","tag":"bleach"},
       {"file":"bright4.jpg","displayName":"Khiêu chiến","tag":"aic2021"},
@@ -236,7 +236,7 @@
   {
     "name": "Butterfly",
     "skins": [
-      {"file":"butterfly.jpg","displayName":"","tag":""},
+      {"file":"butterfly.jpg","displayName":"Mặc định","tag":""},
       {"file":"butterfly2.jpg","displayName":"Thủy thủ","tag":"a"},
       {"file":"butterfly3.jpg","displayName":"Xuân nữ ngổ ngáo","tag":"tanxuan2"},
       {"file":"butterfly4.jpg","displayName":"Teen Nữ Công Nghệ","tag":"s"},
@@ -270,13 +270,13 @@
     "name": "Eland'orr",
     "skins": [
       {"file":"elandorr-mgtc.jpg","displayName":"Mộng giới thần chủ","tag":"ssschh"},
-      {"file":"elandorr.jpg","displayName":"","tag":""}
+      {"file":"elandorr.jpg","displayName":"Mặc định","tag":""}
     ]
   },
   {
     "name": "Hayate",
     "skins": [
-      {"file":"hayate.jpg","displayName":"","tag":""},
+      {"file":"hayate.jpg","displayName":"Mặc định","tag":""},
       {"file":"hayate-bl.jpg","displayName":"Bạch lang","tag":"ahh"},
       {"file":"hayate-nl.jpg","displayName":"Ngân lang","tag":"valentine"},
       {"file":"hayate-ttvt.jpg","displayName":"Tử thần vũ trụ","tag":"sshh"},
@@ -287,7 +287,7 @@
   {
     "name": "Iggy",
     "skins": [
-      {"file":"iggy.jpg","displayName":"","tag":""},
+      {"file":"iggy.jpg","displayName":"Mặc định","tag":""},
       {"file":"iggy3.jpg","displayName":"Thần Miêu thiếu chủ","tag":"schhp"},
       {"file":"iggy5.jpg","displayName":"Tiếng thét Hỗn mang","tag":"ssm67"},
       {"file":"iggy6.jpg","displayName":"Rimuru Tempest","tag":"slime"}
@@ -309,7 +309,7 @@
   {
     "name": "Nakroth",
     "skins": [
-      {"file":"nakroth.jpg","displayName":"","tag":""},
+      {"file":"nakroth.jpg","displayName":"Mặc định","tag":""},
       {"file":"nakroth-killua.jpg","displayName":"Killua","tag":"hxh"},
       {"file":"nakroth-lqs.jpg","displayName":"Lôi Quang Sứ","tag":"sshh"},
       {"file":"nakroth-tnvt.jpg","displayName":"thứ nguyên vệ thần","tag":"db3"},
@@ -320,21 +320,21 @@
   {
     "name": "Qi",
     "skins": [
-      {"file":"qi.jpg","displayName":"","tag":""},
+      {"file":"qi.jpg","displayName":"Mặc định","tag":""},
       {"file":"qi9.jpg","displayName":"Milim Nava","tag":"slime"}
     ]
   },
   {
     "name": "Taara",
     "skins": [
-      {"file":"taara.jpg","displayName":"","tag":""},
+      {"file":"taara.jpg","displayName":"Mặc định","tag":""},
       {"file":"taara9.jpg","displayName":"Shion","tag":"slime"}
     ]
   },
   {
     "name": "",
     "skins": [
-      {"file":"","displayName":"","tag":""}
+      {"file":"","displayName":"Mặc định","tag":""}
     ]
   }
 ]
