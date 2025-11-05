@@ -1,92 +1,379 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8347855396412381"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Tạo khung skin Liên Quân</title>
-  <link rel="icon" href="./assets/logo-images/logo52hzmisfit.png">
+  <link rel="icon" href="./assets/logo-images/logo.png">
 
   <link rel="stylesheet" href="assets/css/appbar.css">
   <link rel="stylesheet" href="assets/css/background.css">
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel="stylesheet" href="assets/css/styles.css">
+
+  <style>
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 80%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.4s ease-out;
+      position: relative;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .modal-header .bell-icon {
+      font-size: 24px;
+    }
+
+    .modal-header h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .modal-banner {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-banner img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-welcome {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .modal-welcome .verified {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .modal-welcome h3 {
+      color: #ff00ff;
+      font-size: 20px;
+      margin: 10px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-info {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .modal-info p {
+      color: #fff;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .modal-info .emoji {
+      margin-right: 5px;
+    }
+
+    .modal-info a {
+      color: #ffeb3b;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .modal-info a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-info .highlight {
+      color: #ff6b6b;
+      font-weight: bold;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-btn.hide {
+      background: #fff;
+      color: #667eea;
+    }
+
+    .modal-btn.hide:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .modal-btn.close {
+      background: #ff4757;
+      color: #fff;
+    }
+
+    .modal-btn.close:hover {
+      background: #ff3838;
+      transform: translateY(-2px);
+    }
+
+    .decorative-stars {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      animation: twinkle 1.5s infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 20px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+
+      .modal-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <!-- 🌀 Loader -->
-    <div class="loader-container">
-      <div class="loader">
-        <div class="loader--dot"></div>
-        <div class="loader--dot"></div>
-        <div class="loader--dot"></div>
-        <div class="loader--dot"></div>
-        <div class="loader--dot"></div>
-        <div class="loader--dot"></div>
-        <div class="loader--text">Loading...</div>
+  <!-- Modal Thông Báo -->
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="bell-icon">🔔</span>
+        <h2>Thông báo</h2>
+      </div>
+
+      <div class="modal-banner">
+        <img id="bannerImg" src="assets/logo-images/banner.png" alt="Ghép Ảnh LiQi Banner"
+          onerror="this.style.display='none'">
+      </div>
+
+
+      <div class="modal-info">
+        <p>
+          <span class="emoji">🎉</span>
+          <strong>WEBSITE thuộc quyền sở hữu của <a href="#" id="groupLink">Group Ghép Ảnh LiQi</a></strong>
+        </p>
+
+        <p><span class="emoji">🔥</span> Website Cung Cấp Random, Tài Nguyên, Data, Reg Skin Liên Quân : <a href="#"
+            id="adminLink">RandomLienQuan.Vn</a></p>
+
+        <p><span class="emoji">🔥</span> FB : <a href="#" id="fbLink">Nguyễn Quang Vinh </a> <span
+            class="emoji">✅</span></p>
+
+        <p><span class="emoji">🎨</span> WEBSITE FREE </p>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn close" id="closeModalBtn">
+          <span>✖️</span> Đóng
+        </button>
       </div>
     </div>
-    <script src="assets/js/custom.js"></script>
+  </div>
+
+  <!-- 🌀 Loader -->
+  <div class="loader-container">
+    <div class="loader">
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--dot"></div>
+      <div class="loader--text">Loading...</div>
+    </div>
+  </div>
+  <script src="assets/js/custom.js"></script>
   <!-- 🌀 End Loader -->
 
+  <div class="container">
+    <h1 style="color: #FFFFFF">Ghép Ảnh LiQi</h1>
+    <div class="search-box">
+      <img src="assets/logo-images/logo.png" alt="logo" class="logo-pulse" />
+    </div>
+    <div class="controls">
+      <label>Chọn Tướng:
+        <select id="tuongSelect"></select>
+      </label>
 
- <div class="container">
-  <h1 style="color: #FFFFFF">Ghép Ảnh LiQi</h1>
-  <div class="search-box">
-  <img src="assets/logo-images/logo52hzmisfit.png" alt="logo" class="logo-pulse" />
+      <label>Chọn Skin:
+        <select id="skinSelect"></select>
+      </label>
+
+      <label>Chọn Khung:
+        <select id="khungSelect"></select>
+      </label>
+
+      <label>Chọn Phép Bổ Trợ:
+        <select id="phepSelect"></select>
+      </label>
+
+      <label>Chọn Thông thạo:
+        <select id="thongthaoSelect"></select>
+      </label>
+
+      <label>Chọn Tri Kỉ:
+        <select id="trikiSelect"></select>
+      </label>
+
+      <div class="switch-label">
+        <span>Có Viền Vàng</span>
+        <label class="switch">
+          <input type="checkbox" id="vienvangCheck">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <label>
+        Nhập Tên Game :
+        <input type="text" id="tenGameInput" placeholder="Nhập tên game...">
+      </label>
+
+      <button id="createBtn">✨ Tạo Ảnh</button>
+      <canvas id="preview" width="900" height="1200" style="display:none;"></canvas>
+      <button id="saveBtn" style="display:none;">📥 Lưu Hình</button>
+    </div>
   </div>
-  <div class="controls">
-    <label>Chọn Tướng:
-      <select id="tuongSelect"></select>
-    </label>
 
-    <label>Chọn Skin:
-      <select id="skinSelect"></select>
-    </label>
+  <script>
+    // Xử lý Modal
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('welcomeModal');
+      const closeBtn = document.getElementById('closeModalBtn');
+      const hideBtn = document.getElementById('hideModalBtn');
+      const adminLink = document.getElementById('adminLink');
+      const fbLink = document.getElementById('fbLink');
 
-    <label>Chọn Khung:
-      <select id="khungSelect"></select>
-    </label>
+      // Kiểm tra xem người dùng đã chọn không hiển thị lại chưa
+      const hideModal = localStorage.getItem('hideWelcomeModal');
 
-    <label>Chọn Phép bổ trợ:
-      <select id="phepSelect"></select>
-    </label>
+      if (!hideModal) {
+        // Hiển thị modal sau khi trang load xong (delay 500ms)
+        setTimeout(() => {
+          modal.classList.add('active');
+        }, 500);
+      }
 
-    <label>Chọn Thông thạo:
-      <select id="thongthaoSelect"></select>
-    </label>
+      // Đóng modal
+      closeBtn.addEventListener('click', function () {
+        modal.classList.remove('active');
+      });
 
-    <label>Chọn Tri kỉ:
-      <select id="trikiSelect"></select>
-    </label>
+      // Đóng modal khi click bên ngoài
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
 
-    <div class="switch-label">
-  <span>Có viền vàng</span>
+      // Xử lý link Group
+      groupLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        // đổi URL này thành link group thật của bạn
+        window.open('https://facebook.com/groups/441938391977920', '_blank');
+      });
 
-  <!-- <-- dùng label cho switch để click vào slider sẽ toggle checkbox -->
-  <label class="switch">
-    <input type="checkbox" id="vienvangCheck">
-    <span class="slider"></span>
-  </label>
-</div>
+      // click banner → mở website
+      bannerImg.addEventListener('click', function () {
+        window.open('https://RandomLienQuan.Vn', '_blank');
+      });
 
-    <label>
-      Nhập Tên Game :
-      <input type="text" id="tenGameInput" placeholder="Nhập tên game...">
-    </label>
-    <!-- Nút tạo ảnh -->
-    <button id="createBtn">✨ Tạo ảnh</button>
 
-    <!-- Canvas đặt ngay dưới các nút -->
-    <canvas id="preview" width="900" height="1200" style="display:none;"></canvas>
+      // Xử lý link website
+      adminLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Thay đổi URL này thành link website thực tế
+        window.open('https://RandomLienQuan.Vn', '_blank');
+      });
 
-    <!-- Nút lưu ảnh, ẩn trước -->
-    <button id="saveBtn" style="display:none;">💾 Lưu hình</button>
-  </div>
-</div>
+      // Xử lý link Facebook
+      fbLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Thay đổi URL này thành link Facebook thực tế
+        window.open('https://facebook.com/100086056946325', '_blank');
+      });
+    });
+  </script>
 
-<script src="assets/js/app.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
+
 </html>
