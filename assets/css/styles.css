@@ -68,7 +68,7 @@ select option {
 button {
   margin-top: 12px;
   padding: 10px 16px;
-  background: linear-gradient(135deg, #b57eff 0%, #4c65f6 100%);
+  background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -220,6 +220,6 @@ input:checked + .slider:before {
   0%   { color: #ea0101; }   /* đỏ */
   25%  { color: #ff9900; }   /* cam */
   50%  { color: #00ccff; }   /* xanh dương nhạt */
-  75%  { color: #b57eff; }   /* tím */
+  75%  { color: #d154d1; }   /* tím */
   100% { color: #ea0101; }   /* quay lại đỏ */
 }

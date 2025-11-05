@@ -29,13 +29,13 @@
 
 /* Hover (chỉ làm sáng nhẹ viền) */
 .app-bar a:hover {
-  border-color: #b57eff;
-  color: #b57eff;
+  border-color: #d154d1;
+  color: #d154d1;
 }
 
 /* 🔹 Nút đang active (trang hiện tại) */
 .app-bar a.active {
-  background: linear-gradient(90deg, #b57eff 0%, #4c65f6 100%);
+  background: linear-gradient(90deg, #d154d1 0%, #4c65f6 100%);
   border: none;
   box-shadow: 0 0 15px rgba(181, 126, 255, 0.5);
   color: #fff;
