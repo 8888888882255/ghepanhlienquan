@@ -15,6 +15,71 @@ const tenGameInput = document.getElementById("tenGameInput");
 const saveBtn = document.getElementById("saveBtn");
 const createBtn = document.getElementById("createBtn");
 
+// MỚI: Thêm controls cho nhập tên tướng thủ công và upload ảnh
+const tenTuongInput = document.getElementById("tenTuongInput");
+const heroImageUpload = document.getElementById("heroImageUpload");
+
+// ... (Phần code hiện tại giữ nguyên)
+
+// MỚI: Thêm controls cho tabs và clear button
+const defaultTabBtn = document.getElementById("defaultTabBtn");
+const editProTabBtn = document.getElementById("editProTabBtn");
+const defaultTabContent = document.getElementById("defaultTabContent");
+const editProTabContent = document.getElementById("editProTabContent");
+const clearHeroImage = document.getElementById("clearHeroImage");
+
+// MỚI: Hàm switch tab
+function switchTab(tab) {
+  if (tab === 'default') {
+    defaultTabBtn.classList.add('active');
+    editProTabBtn.classList.remove('active');
+    defaultTabContent.style.display = 'block';
+    editProTabContent.style.display = 'none';
+  } else {
+    defaultTabBtn.classList.remove('active');
+    editProTabBtn.classList.add('active');
+    defaultTabContent.style.display = 'none';
+    editProTabContent.style.display = 'block';
+  }
+  resetCustomInputs();  // Reset dữ liệu khi switch tab
+}
+
+// MỚI: Hàm reset inputs tùy chỉnh
+function resetCustomInputs() {
+  tenTuongInput.value = '';  // Xóa tên tướng thủ công
+  heroImageUpload.value = '';  // Xóa file selected
+  uploadedHeroImage = null;   // Xóa biến lưu ảnh
+  clearHeroImage.style.display = 'none';  // Ẩn dấu X
+}
+
+// MỚI: Event cho tabs
+defaultTabBtn.addEventListener('click', () => switchTab('default'));
+editProTabBtn.addEventListener('click', () => switchTab('editPro'));
+
+// MỚI: Xử lý upload ảnh hero/skin (cập nhật để hiển thị dấu X)
+heroImageUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        uploadedHeroImage = img;  // Lưu ảnh upload
+        clearHeroImage.style.display = 'inline';  // Hiển thị dấu X
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// MỚI: Event cho dấu X để xóa ảnh
+clearHeroImage.addEventListener('click', () => {
+  resetCustomInputs();
+});
+
+// ... (Phần còn lại của code giữ nguyên, bao gồm drawCanvas sử dụng uploadedHeroImage nếu có)
+
 // Data
 let heroes = [];
 let khungs = [];
@@ -22,6 +87,9 @@ let pheps = [];
 let thongthaos = [];
 let trikis = [];
 const vienvangFile = "vienvang.png";
+
+// MỚI: Biến lưu ảnh upload (sẽ là đối tượng Image nếu upload)
+let uploadedHeroImage = null;
 
 // ==================
 // Load JSON động
@@ -111,6 +179,22 @@ function updatePhuhieuList(groupKey) {
   });
 }
 
+// MỚI: Xử lý upload ảnh hero/skin
+heroImageUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        uploadedHeroImage = img;  // Lưu ảnh upload vào biến
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 // ==================
 // Draw canvas
 // ==================
@@ -126,9 +210,17 @@ async function drawCanvas(){
   const vien = vienvangCheck.checked ? vienvangFile : null;
   const nameGame = tenGameInput.value;
 
-  // Layer 1: Hero + skin
-  if(skin){
-    const imgHero = await loadImage("heroandskin/" + skin.file);
+  // MỚI: Sử dụng tên tướng thủ công nếu được nhập, ưu tiên hơn tên từ select
+  const heroName = tenTuongInput.value.trim() || (hero ? hero.name : '');
+
+  // Layer 1: Hero + skin - Ưu tiên ảnh upload nếu có, nếu không dùng ảnh từ skin
+  let imgHero = null;
+  if (uploadedHeroImage) {
+    imgHero = uploadedHeroImage;
+  } else if (skin) {
+    imgHero = await loadImage("heroandskin/" + skin.file);
+  }
+  if (imgHero) {
     const newWidth = canvas.width * 0.91;
     const newHeight = canvas.height * 0.91;
     const newX = (canvas.width - newWidth) / 2;
@@ -160,7 +252,7 @@ async function drawCanvas(){
   const imgKhung = await loadImage("khung/" + khung);
   drawImageCover(ctx, imgKhung, 0,0, canvas.width, canvas.height);
 
-  // Layer 5: Tag
+  // Layer 5: Tag (giữ nguyên nếu có từ skin)
   if (skin && skin.tag) {
     const imgTag = await loadImage("tag/" + skin.tag + ".png");
     if (imgTag) {
@@ -193,9 +285,9 @@ async function drawCanvas(){
     drawImageCover(ctx, imgPhuhieu, canvas.width - 330, 1020, 160, 160);
   }
 
-  // Layer 9: Tên tướng
-  if(hero){
-    let text = hero.name;
+  // Layer 9: Tên tướng - Sử dụng heroName (thủ công hoặc từ select)
+  if (heroName) {
+    let text = heroName;
     let fontSize = 75;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -218,7 +310,7 @@ async function drawCanvas(){
     ctx.fillText(text, x, y);
   }
   
-  // Layer 10: Tên skin
+  // Layer 10: Tên skin (giữ nguyên nếu có từ skin)
   if(skin && skin.displayName){
     let text = skin.displayName;
     let fontSize = 75;

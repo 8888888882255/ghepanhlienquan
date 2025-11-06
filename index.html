@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ghép Ảnh LiQi</title>
   <link rel="shortcut icon" href="./assets/logo-images/favicon.ico" type="image/x-icon">
-  
+
   <!-- OG SHARE PREVIEW -->
   <!-- OG SHARE PREVIEW -->
   <meta property="og:title" content="Ghép Ảnh LiQi" />
@@ -226,6 +226,101 @@
     #bannerImg {
       cursor: pointer;
     }
+
+    /* style đẹp cho input file */
+#heroImageUpload {
+  width: 100%;                 /* full theo label */
+  max-width: 100%;             /* không vượt */
+  min-height: 42px;            /* chiều cao cố định giống input */
+  padding: 10px 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-sizing: border-box;      /* để padding không làm bể width */
+}
+
+
+    /* ẩn icon default ugly của browser – dùng nút custom */
+    #heroImageUpload::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+
+    /* nút custom */
+    #heroImageUpload::before {
+      content: 'Chọn tệp';
+      display: inline-block;
+      margin-right: 12px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* hover effect */
+    #heroImageUpload:hover {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+
+    /* hàng button */
+    .tab-headers {
+      display: flex;
+    }
+
+    /* button tab */
+    .tab-btn {
+      flex: 1;
+      padding: 12px 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+      color: #ddd;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    /* đang active */
+    .tab-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
+    }
+
+    /* hover */
+    .tab-btn:not(.active):hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* nội dung tab */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* clear dấu X file */
+    .file-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .clear-file {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #ff4757;
+      font-size: 18px;
+    }
   </style>
 </head>
 
@@ -256,7 +351,7 @@
         <p><span class="emoji">🔥</span> FB : <a href="#" id="fbLink">Nguyễn Quang Vinh </a> <span
             class="emoji">✅</span></p>
 
-        <p><span class="emoji">🎨</span> WEBSITE FREE GHÉP ẢNH  </p>
+        <p><span class="emoji">🎨</span> WEBSITE FREE GHÉP ẢNH </p>
       </div>
 
       <div class="modal-buttons">
@@ -283,19 +378,40 @@
   <!-- 🌀 End Loader -->
 
   <div class="container">
-    <h1 style="color: #FFFFFF">Ghép Ảnh LiQI</h1>
+    <h1 style="color: #FFFFFF">Ghép Ảnh LiQi</h1>
     <div class="search-box">
       <img id="logoGroup" src="assets/logo-images/logo.png" alt="logo" class="logo-pulse" />
     </div>
 
     <div class="controls">
-      <label>Chọn Tướng:
-        <select id="tuongSelect"></select>
-      </label>
 
-      <label>Chọn Skin:
-        <select id="skinSelect"></select>
-      </label>
+      <div class="tabs-container">
+        <div class="tab-headers">
+          <button class="tab-btn active" id="defaultTabBtn">🎮 Mặc Định</button>
+          <button class="tab-btn" id="editProTabBtn">⚡ Edit Ảnh Pro</button>
+        </div>
+
+        <div class="tab-content active" id="defaultTabContent">
+          <label>Chọn Tướng:
+            <select id="tuongSelect"></select>
+          </label>
+          <label>Chọn Skin:
+            <select id="skinSelect"></select>
+          </label>
+        </div>
+
+        <div class="tab-content" id="editProTabContent">
+          <label>Nhập Tên Tướng (thủ công):
+            <input type="text" id="tenTuongInput" placeholder="Nhập tên tướng...">
+          </label>
+          <label>Chọn Ảnh Hero/Skin Từ Máy:
+            <div class="file-input-wrapper">
+              <input type="file" id="heroImageUpload" accept="image/*">
+              <span class="clear-file" id="clearHeroImage" style="display: none;">✖</span>
+            </div>
+          </label>
+        </div>
+      </div>
 
       <label>Chọn Khung:
         <select id="khungSelect"></select>
@@ -312,7 +428,7 @@
       <label>Chọn Tri Kỉ:
         <select id="trikiSelect"></select>
       </label>
-      
+
       <label>Chọn phù hiệu chính:
         <select id="phuhieuGroupSelect">
           <option value="khong">Không</option>
@@ -345,7 +461,7 @@
     </div>
   </div>
 
- <script>
+  <script>
     // Xử lý Modal
     document.addEventListener('DOMContentLoaded', function () {
       const modal = document.getElementById('welcomeModal');
