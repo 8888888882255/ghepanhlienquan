@@ -48,6 +48,7 @@ async function loadAllData() {
 
   // Gọi event change để load danh sách skin đầu tiên
   tuongSelect.dispatchEvent(new Event("change"));
+  
 }
 
 // ==================
