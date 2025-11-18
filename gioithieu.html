@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Giới Thiệu - Ghép Ảnh Đẹp</title>
+    <link rel="shortcut icon" href="./assets/logo-images/favicon.ico" type="image/x-icon">
+
+    <!-- OG SHARE PREVIEW -->
+    <meta property="og:title" content="Giới Thiệu - Ghép Ảnh Đẹp" />
+    <meta property="og:description" content="Website ghép ảnh Liên Quân chuyên nghiệp và miễn phí" />
+    <meta property="og:image" content="https://ghepanhdep.online/assets/logo-images/logo.png" />
+    <meta property="og:url" content="https://ghepanhdep.online/gioithieu.html" />
+    <meta property="og:type" content="website" />
+
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding-top: 90px;
+            margin: 0;
+        }
+
+        /* Header Styles */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header-logo img {
+            width: 100px;
+            height: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+            object-fit: cover;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 4px 25px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        .header-logo span {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        /* Menu Button */
+        .menu-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: transform 0.3s ease;
+            margin-left: auto;
+            margin-right: 5%;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            position: fixed;
+            top: 70px;
+            right: -300px;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+            transition: right 0.4s ease;
+            z-index: 999;
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-menu li {
+            margin: 0;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 30px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: #fff;
+            padding-left: 35px;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-left-color: #ffd700;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Features Section */
+        .features {
+            margin-bottom: 60px;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .feature-item span {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #7c3aed;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-logo span {
+                font-size: 16px;
+            }
+
+            .header-logo img {
+                width: 80px;
+                height: 40px;
+            }
+
+            .nav-menu {
+                width: 250px;
+                right: -250px;
+            }
+
+            body {
+                padding-top: 80px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .cta {
+                padding: 30px 20px;
+            }
+
+            .cta h2 {
+                font-size: 24px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Fixed Header -->
+    <header class="fixed-header">
+        <div class="header-logo" id="headerLogo">
+            <img src="assets/logo-images/logo.png" alt="Logo">
+            <span>Ghép Ảnh Đẹp</span>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-menu" id="navMenu">
+        <ul>
+            <li><a href="index.html"><span class="nav-icon">🏠</span>Trang Chủ</a></li>
+            <li><a href="gioithieu.html" class="active"><span class="nav-icon">ℹ️</span>Giới Thiệu</a></li>
+            <li><a href="2fa.html"><span class="nav-icon">🔐</span>Bảo Mật 2FA</a></li>
+            <li><a href="https://fb.com/100007487326838" target="_blank"><span class="nav-icon">👥</span>Group
+                    Facebook</a></li>
+            <li><a href="https://facebook.com/100007487326838" target="_blank"><span class="nav-icon">📱</span>Liên Hệ
+                    Admin</a></li>
+            <li>
+                <a href="https://facebook.com/100007487326838" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1877F2" viewBox="0 0 24 24">
+                        <path
+                            d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.796.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.324-.593 1.324-1.326V1.326C24 .593 23.407 0 22.675 0z" />
+                    </svg>
+                    𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <!-- Overlay -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>🎮 Ghép Ảnh Đẹp</h1>
+            <p>Website ghép ảnh Liên Quân Mobile chuyên nghiệp, miễn phí và dễ sử dụng. Tạo khung ảnh độc đáo cho tướng
+                yêu thích của bạn chỉ trong vài giây!</p>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Miễn Phí</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Tướng & Skin</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Khung Đẹp</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Hoạt Động</div>
+            </div>
+        </section>
+
+        <!-- Main Features -->
+        <section class="cards">
+            <div class="card">
+                <span class="card-icon">🎨</span>
+                <h3>Ghép Ảnh Chuyên Nghiệp</h3>
+                <p>Công cụ ghép ảnh mạnh mẽ với nhiều tùy chọn: chọn tướng, skin, khung, phép bổ trợ, phù hiệu và nhiều
+                    hơn nữa. Tạo ảnh profile độc đáo cho tài khoản của bạn.</p>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">🔐</span>
+                <h3>Quản Lý 2FA</h3>
+                <p>Công cụ quản lý mã xác thực hai yếu tố (2FA) tiện lợi, tương tự Google Authenticator. Lưu trữ an toàn
+                    ngay trên trình duyệt của bạn.</p>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">⚡</span>
+                <h3>Nhanh & Dễ Dùng</h3>
+                <p>Giao diện thân thiện, tối ưu cho cả desktop và mobile. Không cần đăng ký, không cần cài đặt, sử dụng
+                    ngay trên trình duyệt.</p>
+            </div>
+        </section>
+
+        <!-- Features List -->
+        <section class="features">
+            <h2>✨ Tính Năng Nổi Bật</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span>🎮</span>
+                    <div class="feature-content">
+                        <h4>Đa Dạng Tướng & Skin</h4>
+                        <p>Hơn 500 tướng và skin Liên Quân Mobile để lựa chọn</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>🖼️</span>
+                    <div class="feature-content">
+                        <h4>Nhiều Khung Đẹp</h4>
+                        <p>50+ khung ảnh từ Chiến Tướng đến Vinh Quang</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>⚔️</span>
+                    <div class="feature-content">
+                        <h4>Phép Bổ Trợ</h4>
+                        <p>Tùy chỉnh phép bổ trợ như trong game</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>🏆</span>
+                    <div class="feature-content">
+                        <h4>Thông Thạo & Tri Kỷ</h4>
+                        <p>Hiển thị rank thông thạo và tri kỷ tướng</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>🎖️</span>
+                    <div class="feature-content">
+                        <h4>Phù Hiệu Đa Dạng</h4>
+                        <p>Phù hiệu Lục, Vàng, Đỏ, Lam đầy đủ</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>✏️</span>
+                    <div class="feature-content">
+                        <h4>Tùy Chỉnh Tên</h4>
+                        <p>Nhập tên game của bạn vào ảnh</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>📤</span>
+                    <div class="feature-content">
+                        <h4>Upload Ảnh Riêng</h4>
+                        <p>Chế độ Edit Pro để upload ảnh từ máy</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span>💾</span>
+                    <div class="feature-content">
+                        <h4>Tải Về Dễ Dàng</h4>
+                        <p>Lưu ảnh chất lượng cao về máy ngay lập tức</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <h2>🚀 Sẵn Sàng Tạo Ảnh Đẹp?</h2>
+            <p>Bắt đầu tạo khung ảnh Liên Quân chuyên nghiệp ngay hôm nay, hoàn toàn miễn phí!</p>
+            <div class="btn-group">
+                <a href="index.html" class="btn btn-primary">Bắt Đầu Ngay</a>
+                <a href="https://fb.com/100007487326838" target="_blank" class="btn btn-secondary">Tham Gia Group</a>
+            </div>
+        </section>
+    </div>
+
+
+    <script>
+        // Menu Toggle Script
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const navOverlay = document.getElementById('navOverlay');
+        const headerLogo = document.getElementById('headerLogo');
+
+        // Toggle menu
+        menuToggle.addEventListener('click', function () {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking overlay
+        navOverlay.addEventListener('click', function () {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function () {
+                if (!this.getAttribute('target')) {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Header logo click
+        headerLogo.addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>2FA Generator — Ghép Ảnh Đẹp</title>
+  <link rel="shortcut icon" href="./assets/logo-images/favicon.ico" type="image/x-icon">
+  <meta name="description"
+    content="Web tạo mã TOTP (2FA) giống Google Authenticator. Lưu secret vào localStorage, hiển thị QR, tự cập nhật mã." />
+
+  <style>
+    /* Reset cơ bản */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-bg: rgba(255, 255, 255, 0.15);
+      --input-bg: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --radius: 12px;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+      min-height: 100vh;
+      background: var(--gradient);
+      color: var(--text-primary);
+      padding: 0;
+      margin: 0;
+      padding-top: 90px;
+    }
+
+    /* Header Styles */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 20px;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .header-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .header-logo img {
+      width: 100px;
+      height: 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      animation: pulse 2s infinite;
+      object-fit: cover;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 4px 25px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .header-logo span {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    /* Menu Button */
+    .menu-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: transform 0.3s ease;
+      margin-left: auto;
+    }
+
+    .menu-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .menu-toggle span {
+      width: 30px;
+      height: 3px;
+      background: #fff;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(8px, -8px);
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      position: fixed;
+      top: 70px;
+      right: -300px;
+      width: 280px;
+      height: calc(100vh - 70px);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+      transition: right 0.4s ease;
+      z-index: 999;
+      padding: 30px 0;
+      overflow-y: auto;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-menu li {
+      margin: 0;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px 30px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .nav-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: #fff;
+      padding-left: 35px;
+    }
+
+    .nav-menu a.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: #ffd700;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Overlay */
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 998;
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .app {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 20px
+    }
+
+    header.page-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px
+    }
+
+    header.page-header h1 {
+      font-size: 22px;
+      flex: 1;
+      min-width: 250px;
+      font-weight: 700
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      background: var(--card-bg);
+      border: none;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px)
+    }
+
+    .btn.primary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #7c3aed
+    }
+
+    .btn.primary:hover {
+      background: white
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3)
+    }
+
+    .btn.danger {
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid rgba(239, 68, 68, 0.4)
+    }
+
+    .btn.danger:hover {
+      background: rgba(239, 68, 68, 0.3)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 62vh;
+      overflow: auto;
+      padding-right: 6px
+    }
+
+    .list::-webkit-scrollbar {
+      width: 6px
+    }
+
+    .list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px
+    }
+
+    .list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px
+    }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .account:hover {
+      background: rgba(255, 255, 255, 0.15)
+    }
+
+    .account.selected {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.4)
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .meta {
+      flex: 1;
+      min-width: 0
+    }
+
+    .meta .title {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .meta .issuer {
+      color: var(--text-secondary);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .account-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 16px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1)
+    }
+
+    .icon-btn.delete:hover {
+      background: rgba(239, 68, 68, 0.4);
+      color: #fff
+    }
+
+    /* Detail section */
+    .detail {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .code-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.1);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .code {
+      font-size: 42px;
+      letter-spacing: 8px;
+      font-weight: 700
+    }
+
+    .small {
+      color: var(--text-secondary);
+      font-size: 13px
+    }
+
+    .countdown {
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 8px
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end
+    }
+
+    .input {
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: var(--input-bg);
+      color: white;
+      min-width: 0;
+      flex: 1;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .input::placeholder {
+      color: rgba(255, 255, 255, 0.5)
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.25)
+    }
+
+    .input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed
+    }
+
+    .qr-wrap {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-direction: column
+    }
+
+    .qr {
+      padding: 10px;
+      background: #fff;
+      border-radius: var(--radius)
+    }
+
+    footer {
+      margin-top: 20px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      text-align: center;
+      padding-bottom: 20px
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      display: flex
+    }
+
+    .modal {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 28px;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 440px;
+      color: white;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal h3 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: 700
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px
+    }
+
+    .row label {
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .modal .input {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .modal .input:focus {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.3)
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .modal-text {
+      margin: 16px 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .modal-warning {
+      margin-bottom: 20px;
+      color: #fecaca;
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(239, 68, 68, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width:880px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .code-box {
+        flex-direction: column;
+        text-align: center
+      }
+
+      .form-row {
+        flex-direction: column
+      }
+
+      .form-row .input {
+        width: 100%
+      }
+
+      .form-row .btn {
+        width: 100%
+      }
+
+      header.page-header {
+        flex-direction: column;
+        align-items: flex-start
+      }
+
+      .top-actions {
+        width: 100%
+      }
+    }
+
+    @media (max-width:768px) {
+      .header-logo span {
+        font-size: 16px;
+      }
+
+      .header-logo img {
+        width: 80px;
+        height: 40px;
+      }
+
+      .nav-menu {
+        width: 250px;
+        right: -250px;
+      }
+
+      body {
+        padding-top: 80px;
+      }
+    }
+
+    @media (max-width:480px) {
+      body {
+        padding-top: 80px
+      }
+
+      .app {
+        margin: 10px auto;
+        padding: 0 10px
+      }
+
+      header.page-header h1 {
+        font-size: 18px
+      }
+
+      .code {
+        font-size: 32px;
+        letter-spacing: 4px
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Fixed Header -->
+  <header class="fixed-header">
+    <div class="header-logo" id="headerLogo">
+      <img src="assets/logo-images/logo.png" alt="Logo">
+      <span>Ghép Ảnh Đẹp</span>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav class="nav-menu" id="navMenu">
+    <ul>
+      <li><a href="index.html"><span class="nav-icon">🏠</span>Trang Chủ</a></li>
+      <li><a href="gioithieu.html"><span class="nav-icon">ℹ️</span>Giới Thiệu</a></li>
+      <li><a href="2fa.html" class="active"><span class="nav-icon">🔐</span>Bảo Mật 2FA</a></li>
+      <li><a href="https://fb.com/100007487326838" target="_blank"><span class="nav-icon">👥</span>Group Facebook</a>
+      </li>
+      <li><a href="https://facebook.com/100007487326838" target="_blank"><span class="nav-icon">📱</span>Liên Hệ
+          Admin</a></li>
+      <li>
+        <a href="https://facebook.com/100007487326838" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1877F2" viewBox="0 0 24 24">
+            <path
+              d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.796.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.324-.593 1.324-1.326V1.326C24 .593 23.407 0 22.675 0z" />
+          </svg>
+          𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- Overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="app">
+    <header class="page-header">
+      <div>
+        <h1>🔐 2FA Generator - Quản Lý Mã Xác Thực</h1>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- left: danh sách tài khoản -->
+      <section class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <strong style="font-size:16px">Danh sách 2FA</strong>
+          <button class="btn primary" id="btnAdd" style="padding:8px 16px;font-size:13px">+ Thêm tài khoản</button>
+        </div>
+
+        <div class="list" id="accountList">
+          <!-- accounts rendered here -->
+        </div>
+
+        <div
+          style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <small class="small">Đã lưu trong localStorage</small>
+          <button class="btn danger" id="btnClear">Xóa tất cả</button>
+        </div>
+      </section>
+
+      <!-- right: chi tiết và mã -->
+      <section class="detail">
+        <div class="card">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+            <div style="flex:1">
+              <div style="font-size:18px" class="small" id="issuerLabel">Không có tài khoản nào</div>
+              <div style="font-weight:700;font-size:18px;margin-top:4px" id="accountLabel">Chọn một tài khoản để xem mã
+              </div>
+            </div>
+            <div class="countdown" id="countdown">--</div>
+          </div>
+
+          <div class="code-box">
+            <div style="flex:1">
+              <div class="code" id="codeDisplay">------</div>
+              <div class="small" style="margin-top:8px">Mỗi mã OTP có hiệu lực 30 giây</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;align-items:center">
+              <div class="qr-wrap">
+                <div id="qr" class="qr"></div>
+              </div>
+              <div class="controls">
+                <button class="btn" id="btnCopy">📋 Copy</button>
+                <button class="btn ghost" id="btnEdit">✏️ Sửa</button>
+                <button class="btn danger" id="btnDelete">🗑️ Xóa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- modal thêm/sửa -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal">
+        <h3 id="modalTitle">Thêm tài khoản 2FA</h3>
+        <div class="row">
+          <label>Tên tài khoản (issuer):</label>
+          <input id="mName" class="input" placeholder="Facebook, Google, v.v..." />
+        </div>
+        <div class="row">
+          <label>Secret (Key 2fa):</label>
+          <input id="mSecret" class="input" placeholder="JBSWY3DPEHPK3PXP" />
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+          <button class="btn ghost" id="modalCancel">Hủy</button>
+          <button class="btn primary" id="modalSave">Lưu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal xóa -->
+    <div class="modal-backdrop" id="deleteModalBackdrop">
+      <div class="modal">
+        <h3>⚠️ Xóa tài khoản</h3>
+        <div class="modal-text">
+          Bạn có chắc chắn muốn xóa tài khoản "<strong id="deleteAccountName"></strong>"?
+        </div>
+        <div class="modal-warning">
+          ⚠️ Hành động này không thể hoàn tác!
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button class="btn ghost" id="deleteModalCancel">Hủy</button>
+          <button class="btn danger" id="deleteModalConfirm">Xóa</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal xóa tất cả -->
+    <div class="modal-backdrop" id="clearAllModalBackdrop">
+      <div class="modal">
+        <h3>⚠️ Xóa tất cả tài khoản</h3>
+        <div class="modal-text">
+          Bạn có chắc chắn muốn xóa <strong>TẤT CẢ</strong> tài khoản 2FA đã lưu?
+        </div>
+        <div class="modal-warning">
+          ⚠️ Hành động này không thể hoàn tác!
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button class="btn ghost" id="clearAllModalCancel">Hủy</button>
+          <button class="btn danger" id="clearAllModalConfirm">Xóa tất cả</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QRCode library (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    // Menu Toggle Script
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navOverlay = document.getElementById('navOverlay');
+    const headerLogo = document.getElementById('headerLogo');
+
+    // Toggle menu
+    menuToggle.addEventListener('click', function () {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', function () {
+      menuToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', function () {
+        if (!this.getAttribute('target')) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Header logo click
+    headerLogo.addEventListener('click', function () {
+      window.location.href = 'index.html';
+    });
+  </script>
+
+  <script src="assets/js/2fa.js"></script>
+</body>
+
+</html>

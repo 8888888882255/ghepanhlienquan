@@ -17,313 +17,268 @@
   <meta property="og:url" content="https://ghepanhdep.online" />
   <meta property="og:type" content="website" />
 
-
-
-  <link rel="stylesheet" href="assets/css/appbar.css">
-  <link rel="stylesheet" href="assets/css/background.css">
-  <link rel="stylesheet" href="assets/css/custom.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-
   <style>
-    /* Modal Overlay */
-    .modal-overlay {
-      display: none;
+    /* Header Styles */
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .header-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .header-logo img {
+      width: 100px;
+      height: 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      animation: pulse 2s infinite;
+      object-fit: cover;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 4px 25px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .header-logo span {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    /* Left-aligned header structure */
+    .fixed-header {
+      justify-content: flex-start;
+    }
+
+    /* Menu Button */
+    .menu-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: transform 0.3s ease;
+      margin-left: auto;
+      margin-right: 5%;
+    }
+
+    .menu-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .menu-toggle span {
+      width: 30px;
+      height: 3px;
+      background: #fff;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(8px, -8px);
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      position: fixed;
+      top: 70px;
+      right: -300px;
+      width: 280px;
+      height: calc(100vh - 70px);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+      transition: right 0.4s ease;
+      z-index: 999;
+      padding: 30px 0;
+      overflow-y: auto;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-menu li {
+      margin: 0;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px 30px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .nav-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: #fff;
+      padding-left: 35px;
+    }
+
+    .nav-menu a.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: #ffd700;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Overlay */
+    .nav-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    /* Modal Content */
-    .modal-content {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 400px;
-      width: 80%;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      animation: modalSlideIn 0.4s ease-out;
-      position: relative;
-    }
-
-    @keyframes modalSlideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .modal-header .bell-icon {
-      font-size: 24px;
-    }
-
-    .modal-header h2 {
-      color: #fff;
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .modal-banner {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-banner img {
-      max-width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-welcome {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .modal-welcome .verified {
-      display: inline-block;
-      margin: 0 5px;
-    }
-
-    .modal-welcome h3 {
-      color: #ff00ff;
-      font-size: 20px;
-      margin: 10px 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-info {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-
-    .modal-info p {
-      color: #fff;
-      margin: 10px 0;
-      line-height: 1.6;
-    }
-
-    .modal-info .emoji {
-      margin-right: 5px;
-    }
-
-    .modal-info a {
-      color: #ffeb3b;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .modal-info a:hover {
-      text-decoration: underline;
-    }
-
-    .modal-info .highlight {
-      color: #ff6b6b;
-      font-weight: bold;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .modal-btn {
-      padding: 12px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .modal-btn.hide {
-      background: #fff;
-      color: #667eea;
-    }
-
-    .modal-btn.hide:hover {
-      background: #f0f0f0;
-      transform: translateY(-2px);
-    }
-
-    .modal-btn.close {
-      background: #ff4757;
-      color: #fff;
-    }
-
-    .modal-btn.close:hover {
-      background: #ff3838;
-      transform: translateY(-2px);
-    }
-
-    .decorative-stars {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 20px;
-      animation: twinkle 1.5s infinite;
-    }
-
-    @keyframes twinkle {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.5;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .modal-content {
-        padding: 20px;
-      }
-
-      .modal-buttons {
-        flex-direction: column;
-      }
-
-      .modal-btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    #logoGroup {
-      cursor: pointer;
-    }
-
-    #bannerImg {
-      cursor: pointer;
-    }
-
-    /* style đẹp cho input file */
-#heroImageUpload {
-  width: 100%;                 /* full theo label */
-  max-width: 100%;             /* không vượt */
-  min-height: 42px;            /* chiều cao cố định giống input */
-  padding: 10px 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  box-sizing: border-box;      /* để padding không làm bể width */
-}
-
-
-    /* ẩn icon default ugly của browser – dùng nút custom */
-    #heroImageUpload::-webkit-file-upload-button {
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
       visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 998;
     }
 
-    /* nút custom */
-    #heroImageUpload::before {
-      content: 'Chọn tệp';
-      display: inline-block;
-      margin-right: 12px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
+    .nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
     }
 
-    /* hover effect */
-    #heroImageUpload:hover {
-      border-color: #fff;
-      background: rgba(255, 255, 255, 0.3);
+    /* Adjust body padding */
+    body {
+      padding-top: 90px;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-
-    /* hàng button */
-    .tab-headers {
-      display: flex;
+    /* Hide old elements */
+    .container>h1:first-of-type,
+    .search-box {
+      display: none !important;
     }
 
-    /* button tab */
-    .tab-btn {
-      flex: 1;
-      padding: 12px 0;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      background: transparent;
-      color: #ddd;
-      cursor: pointer;
-      transition: 0.25s;
-    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-logo span {
+        font-size: 16px;
+      }
 
-    /* đang active */
-    .tab-btn.active {
-      color: #fff;
-      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
-    }
+      .header-logo img {
+        width: 80px;
+        height: 40px;
+      }
 
-    /* hover */
-    .tab-btn:not(.active):hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
+      .nav-menu {
+        width: 250px;
+        right: -250px;
+      }
 
-    /* nội dung tab */
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* clear dấu X file */
-    .file-input-wrapper {
-      position: relative;
-      width: 100%;
-    }
-
-    .clear-file {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #ff4757;
-      font-size: 18px;
+      body {
+        padding-top: 80px;
+      }
     }
   </style>
+
+  <link rel="stylesheet" href="assets/css/appbar.css">
+  <link rel="stylesheet" href="assets/css/background.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
+  <!-- Fixed Header -->
+  <header class="fixed-header">
+    <div class="header-logo" id="headerLogo">
+      <img src="assets/logo-images/logo.png" alt="Logo">
+      <span>Ghép Ảnh Đẹp</span>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav class="nav-menu" id="navMenu">
+    <ul>
+      <li><a href="index.html" class="active"><span class="nav-icon">🏠</span>Trang Chủ</a></li>
+      <li><a href="gioithieu.html"><span class="nav-icon">ℹ️</span>Giới Thiệu</a></li>
+      <li><a href="2fa.html"><span class="nav-icon">🔐</span>Bảo Mật 2FA</a></li>
+      <li><a href="https://fb.com/100007487326838" target="_blank"><span class="nav-icon">👥</span>Group Facebook</a>
+      </li>
+      <li><a href="https://facebook.com/100007487326838" target="_blank"><span class="nav-icon">📱</span>Liên Hệ
+          Admin</a></li>
+      <li>
+        <a href="https://facebook.com/100007487326838" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1877F2" viewBox="0 0 24 24">
+            <path
+              d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.796.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.324-.593 1.324-1.326V1.326C24 .593 23.407 0 22.675 0z" />
+          </svg>
+          𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- Overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
   <!-- Modal Thông Báo -->
   <div class="modal-overlay" id="welcomeModal">
     <div class="modal-content">
@@ -337,20 +292,20 @@
           onerror="this.style.display='none'">
       </div>
 
-
       <div class="modal-info">
-        <p>
+        <!-- <p>
           <span class="emoji">🎉</span>
           <strong>Group FB Giao Lưu: <a href="#" id="groupLink">Ghép Ảnh Đẹp</a></strong>
-        </p>
+        </p> -->
 
-        <p><span class="emoji">🔥</span> Website Cung Cấp Tài Nguyên Ghép Ảnh - Tạo Khung Liên Quân Free : <a href="#"
+        <p><span class="emoji">🔥</span>Cung Cấp Tạo Khung Liên Quân Free Và Quản Lý Mã Xác Thực 2FA Tại : <a href="#"
             id="adminLink"> GhepAnhDep.Online</a></p>
 
-        <p><span class="emoji">🔥</span> FB : <a href="#" id="fbLink">𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡 </a> <span
-            class="emoji"> </span></p>
+        <p><span class="emoji">🔥</span> FB : <a href="#" id="fbLink">𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡 </a></p>
 
-        <p><span class="emoji">🎨</span> Nhận Buff 10k Sub FB Giá 55K </p>
+        <p><span class="emoji">🎨</span> Buff 10k Sub FB Giá 55K </p>
+
+        <p><span class="emoji">💖</span> Buff 10k Thành Viên Group Giá 55K </p>
       </div>
 
       <div class="modal-buttons">
@@ -361,7 +316,7 @@
     </div>
   </div>
 
-  <!-- 🌀 Loader -->
+  <!-- Loader -->
   <div class="loader-container">
     <div class="loader">
       <div class="loader--dot"></div>
@@ -374,16 +329,14 @@
     </div>
   </div>
   <script src="assets/js/custom.js"></script>
-  <!-- 🌀 End Loader -->
-
+  <br /><br /><br /><br />
   <div class="container">
-    <!-- <h1 style="color: #FFFFFF">Ghép Ảnh Đẹp</h1>
+    <h1 style="color: #FFFFFF">Ghép Ảnh Đẹp</h1>
     <div class="search-box">
       <img id="logoGroup" src="assets/logo-images/logo.png" alt="logo" class="logo-pulse" />
-    </div> -->
+    </div>
 
     <div class="controls">
-
       <div class="tabs-container">
         <div class="tab-headers">
           <button class="tab-btn active" id="defaultTabBtn">🎮 Mặc Định</button>
@@ -441,6 +394,7 @@
       <label id="phuhieuLabel" style="display: none;">Chọn phù hiệu:
         <select id="phuhieuSelect"></select>
       </label>
+
       <div class="switch-label">
         <span>Có Viền Vàng</span>
         <label class="switch">
@@ -461,64 +415,93 @@
   </div>
 
   <script>
-    // Xử lý Modal
+    // Menu Toggle Script
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navOverlay = document.getElementById('navOverlay');
+    const headerLogo = document.getElementById('headerLogo');
+
+    // Toggle menu
+    menuToggle.addEventListener('click', function () {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', function () {
+      menuToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', function () {
+        if (!this.getAttribute('target')) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Header logo click
+    headerLogo.addEventListener('click', function () {
+      window.location.href = 'index.html';
+    });
+
+    // Modal Script
     document.addEventListener('DOMContentLoaded', function () {
       const modal = document.getElementById('welcomeModal');
       const closeBtn = document.getElementById('closeModalBtn');
-      const hideBtn = document.getElementById('hideModalBtn');
       const adminLink = document.getElementById('adminLink');
       const fbLink = document.getElementById('fbLink');
+      const groupLink = document.getElementById('groupLink');
+      const bannerImg = document.getElementById('bannerImg');
+      const logoGroup = document.getElementById('logoGroup');
 
-      // Kiểm tra xem người dùng đã chọn không hiển thị lại chưa
       const hideModal = localStorage.getItem('hideWelcomeModal');
 
       if (!hideModal) {
-        // Hiển thị modal sau khi trang load xong (delay 500ms)
         setTimeout(() => {
           modal.classList.add('active');
         }, 500);
       }
 
-      // Đóng modal
       closeBtn.addEventListener('click', function () {
         modal.classList.remove('active');
       });
 
-      // Đóng modal khi click bên ngoài
       modal.addEventListener('click', function (e) {
         if (e.target === modal) {
           modal.classList.remove('active');
         }
       });
 
-      // Xử lý link Group
       groupLink.addEventListener('click', function (e) {
         e.preventDefault();
-        // đổi URL này thành link group thật của bạn
-        window.open('https://facebook.com/groups/737285755662521', '_blank');
-      });
-      // click logo → mở group
-      logoGroup.addEventListener('click', function () {
-        window.open('https://facebook.com/groups/737285755662521', '_blank');
+        window.open('https://fb.com/100007487326838', '_blank');
       });
 
-      // click banner → mở website
+      logoGroup.addEventListener('click', function () {
+        window.open('https://fb.com/100007487326838', '_blank');
+      });
+
       bannerImg.addEventListener('click', function () {
         window.open('https://GhepAnhDep.Online', '_blank');
       });
 
-
-      // Xử lý link website
       adminLink.addEventListener('click', function (e) {
         e.preventDefault();
-        // Thay đổi URL này thành link website thực tế
         window.open('https://GhepAnhDep.Online', '_blank');
       });
 
-      // Xử lý link Facebook
       fbLink.addEventListener('click', function (e) {
         e.preventDefault();
-        // Thay đổi URL này thành link Facebook thực tế
         window.open('https://facebook.com/100007487326838', '_blank');
       });
     });

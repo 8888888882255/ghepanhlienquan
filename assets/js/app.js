@@ -427,7 +427,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
   // 🐧 Phát hiện nếu mở bằng app (Facebook, Zalo, TikTok)
   if (/Zalo|FBAN|FBAV|TikTok/i.test(userAgent)) {
     alert(
-      "⚠️ Bạn đang mở trang bằng ứng dụng (Facebook / Zalo / TikTok,...)\n\n" +
+      "⚠️ Bạn đang mở trang bằng ứng dụng (Facebook / Messenger / Zalo / TikTok,...)\n\n" +
       "🐧 Hãy bấm vào nút ... hoặc dấu chia sẻ → chọn 'Mở bằng trình duyệt (Safari / Chrome)' để lưu hình nhé!\n\n" +
       "😍Hoặc Bấm giữ 2s hình ảnh để lưu nhé, trên pc thì click chuột phải chọn lưu hình."
     );

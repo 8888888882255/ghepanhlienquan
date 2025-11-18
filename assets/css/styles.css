@@ -223,3 +223,299 @@ input:checked + .slider:before {
   75%  { color: #d154d1; }   /* tím */
   100% { color: #ea0101; }   /* quay lại đỏ */
 }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 80%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.4s ease-out;
+      position: relative;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .modal-header .bell-icon {
+      font-size: 24px;
+    }
+
+    .modal-header h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .modal-banner {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-banner img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-welcome {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .modal-welcome .verified {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .modal-welcome h3 {
+      color: #ff00ff;
+      font-size: 20px;
+      margin: 10px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-info {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .modal-info p {
+      color: #fff;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .modal-info .emoji {
+      margin-right: 5px;
+    }
+
+    .modal-info a {
+      color: #ffeb3b;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .modal-info a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-info .highlight {
+      color: #ff6b6b;
+      font-weight: bold;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-btn.hide {
+      background: #fff;
+      color: #667eea;
+    }
+
+    .modal-btn.hide:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .modal-btn.close {
+      background: #ff4757;
+      color: #fff;
+    }
+
+    .modal-btn.close:hover {
+      background: #ff3838;
+      transform: translateY(-2px);
+    }
+
+    .decorative-stars {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      animation: twinkle 1.5s infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 20px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+
+      .modal-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    #logoGroup {
+      cursor: pointer;
+    }
+
+    #bannerImg {
+      cursor: pointer;
+    }
+
+    /* style đẹp cho input file */
+#heroImageUpload {
+  width: 100%;                 /* full theo label */
+  max-width: 100%;             /* không vượt */
+  min-height: 42px;            /* chiều cao cố định giống input */
+  padding: 10px 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-sizing: border-box;      /* để padding không làm bể width */
+}
+
+
+    /* ẩn icon default ugly của browser – dùng nút custom */
+    #heroImageUpload::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+
+    /* nút custom */
+    #heroImageUpload::before {
+      content: 'Chọn tệp';
+      display: inline-block;
+      margin-right: 12px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* hover effect */
+    #heroImageUpload:hover {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+
+    /* hàng button */
+    .tab-headers {
+      display: flex;
+    }
+
+    /* button tab */
+    .tab-btn {
+      flex: 1;
+      padding: 12px 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+      color: #ddd;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    /* đang active */
+    .tab-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, #d154d1 0%, #4c65f6 100%);
+    }
+
+    /* hover */
+    .tab-btn:not(.active):hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* nội dung tab */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* clear dấu X file */
+    .file-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .clear-file {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #ff4757;
+      font-size: 18px;
+    }
