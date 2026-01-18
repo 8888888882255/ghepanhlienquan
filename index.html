@@ -7,11 +7,11 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ghép Ảnh Đẹp</title>
+  <title>Miyaru</title>
   <link rel="shortcut icon" href="./assets/logo-images/favicon.ico" type="image/x-icon">
 
   <!-- OG SHARE PREVIEW -->
-  <meta property="og:title" content="Ghép Ảnh Đẹp" />
+  <meta property="og:title" content="Miyaru" />
   <meta property="og:description" content="Website ghép ảnh Liên Quân" />
   <meta property="og:image" content="https://miyaru.online/assets/logo-images/logo.png" />
   <meta property="og:url" content="https://miyaru.online" />
@@ -230,6 +230,28 @@
         padding-top: 80px;
       }
     }
+
+    .title-animate {
+      color: #fff;
+      font-size: 32px;
+      font-weight: 800;
+      text-align: center;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow:
+          0 0 6px #ffd86f,
+          0 0 12px #ff9f1c;
+      }
+
+      to {
+        text-shadow:
+          0 0 12px #ff6ec4,
+          0 0 24px #7873f5;
+      }
+    }
   </style>
 
   <link rel="stylesheet" href="assets/css/appbar.css">
@@ -243,7 +265,7 @@
   <header class="fixed-header">
     <div class="header-logo" id="headerLogo">
       <img src="assets/logo-images/logo.png" alt="Logo">
-      <span>Ghép Ảnh Đẹp</span>
+      <span>𝐌𝐢𝐲𝐚𝐫𝐮</span>
     </div>
 
     <button class="menu-toggle" id="menuToggle">
@@ -288,24 +310,24 @@
       </div>
 
       <div class="modal-banner">
-        <img id="bannerImg" src="assets/logo-images/banner.png" alt="Ghép Ảnh Đẹp Banner"
+        <img id="bannerImg" src="assets/logo-images/banner.png" alt="Miyaru Banner"
           onerror="this.style.display='none'">
       </div>
 
       <div class="modal-info">
         <!-- <p>
           <span class="emoji">🎉</span>
-          <strong>Group FB Giao Lưu: <a href="#" id="groupLink">Ghép Ảnh Đẹp</a></strong>
+          <strong>Group FB Giao Lưu: <a href="#" id="groupLink">Miyaru</a></strong>
         </p> -->
 
-        <p><span class="emoji">🔥</span>Cung Cấp Tạo Khung Liên Quân Free Và Quản Lý Mã Xác Thực 2FA Tại : <a href="#"
-            id="adminLink"> miyaru.online</a></p>
+        <p><span class="emoji">🔥</span>Cung Cấp Ghép Khung Liên Quân Miễn Phí Tại : <a href="#" id="adminLink">
+            Miyaru.online</a></p>
 
         <p><span class="emoji">🔥</span> FB : <a href="#" id="fbLink">𝐌𝐢𝐲𝐚𝐫𝐮 𝐘𝐮𝐞 𓆉 𓆡 </a></p>
 
         <p><span class="emoji">🎨</span> Buff 10k Sub FB Giá 55K </p>
 
-        <p><span class="emoji">💖</span> Buff 10k Thành Viên Group Giá 55K </p>
+        <p><span class="emoji">💖</span> Buff 10k Thành Viên Group Giá 77k </p>
       </div>
 
       <div class="modal-buttons">
@@ -331,13 +353,18 @@
   <script src="assets/js/custom.js"></script>
   <br /><br /><br /><br />
   <div class="container">
-    <h1 style="color: #FFFFFF">Ghép Ảnh Đẹp</h1>
+    <h1 style="color: #FFFFFF">Miyaru</h1>
     <div class="search-box">
       <img id="logoGroup" src="assets/logo-images/logo.png" alt="logo" class="logo-pulse" />
     </div>
 
     <div class="controls">
       <div class="tabs-container">
+
+        <div class="title-box">
+          <h1 class="title-animate">Ghép Khung Liên Quân</h1>
+        </div>
+
         <div class="tab-headers">
           <button class="tab-btn active" id="defaultTabBtn">🎮 Mặc Định</button>
           <button class="tab-btn" id="editProTabBtn">⚡ Edit Ảnh Pro</button>
@@ -393,6 +420,10 @@
 
       <label id="phuhieuLabel" style="display: none;">Chọn phù hiệu:
         <select id="phuhieuSelect"></select>
+      </label>
+
+      <label>Chọn Sổ Sứ Mệnh (SSM):
+        <select id="ssmSelect"></select>
       </label>
 
       <div class="switch-label">
